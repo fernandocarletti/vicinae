@@ -97,5 +97,6 @@ private:
   QString m_detailErrorTitle;
   QString m_detailErrorDescription;
 
+  bool m_resetSelectionOnNextUpdate = true;
   std::unique_ptr<QTemporaryFile> m_tmpFile;
 };

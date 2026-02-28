@@ -59,6 +59,13 @@ public:
   virtual void beforePop() {}
 
 protected:
+  void setSelectFirstOnReset(bool value) {
+    if (m_selectFirstOnReset != value) {
+      m_selectFirstOnReset = value;
+      emit selectFirstOnResetChanged();
+    }
+  }
+
   virtual QString itemTitle(int section, int item) const = 0;
   virtual QString itemSubtitle(int section, int item) const { return {}; }
   virtual QString itemIconSource(int section, int item) const = 0;
@@ -66,13 +73,6 @@ protected:
   virtual QString itemId(int section, int item) const { return itemTitle(section, item); }
   virtual std::unique_ptr<ActionPanelState> createActionPanel(int section, int item) const = 0;
   virtual void onSelectionCleared();
-
-  void setSelectFirstOnReset(bool value) {
-    if (m_selectFirstOnReset != value) {
-      m_selectFirstOnReset = value;
-      emit selectFirstOnResetChanged();
-    }
-  }
 
   struct SectionInfo {
     QString name;

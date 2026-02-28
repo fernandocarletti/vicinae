@@ -92,7 +92,8 @@ void ClipboardHistoryViewHost::initialize() {
 
   connect(m_controller, &ClipboardHistoryController::dataRetrieved, this,
           [this](const PaginatedResponse<ClipboardHistoryEntry> &page) {
-            m_model->setEntries(page);
+            m_model->setEntries(page, m_resetSelectionOnNextUpdate);
+            m_resetSelectionOnNextUpdate = false;
             handleDataRetrieved(page.totalCount);
           });
 
@@ -109,7 +110,10 @@ void ClipboardHistoryViewHost::initialize() {
 
 void ClipboardHistoryViewHost::loadInitialData() { m_controller->setFilter(searchText()); }
 
-void ClipboardHistoryViewHost::textChanged(const QString &text) { m_controller->setFilter(text); }
+void ClipboardHistoryViewHost::textChanged(const QString &text) {
+  m_resetSelectionOnNextUpdate = true;
+  m_controller->setFilter(text);
+}
 
 void ClipboardHistoryViewHost::onReactivated() { m_model->refreshActionPanel(); }
 

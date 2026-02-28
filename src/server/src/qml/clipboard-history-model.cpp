@@ -12,13 +12,16 @@
 
 ClipboardHistoryModel::ClipboardHistoryModel(QObject *parent) : CommandListModel(parent) {}
 
-void ClipboardHistoryModel::setEntries(const PaginatedResponse<ClipboardHistoryEntry> &page) {
+void ClipboardHistoryModel::setEntries(const PaginatedResponse<ClipboardHistoryEntry> &page,
+                                       bool resetSelection) {
   m_entries = page.data;
   std::vector<SectionInfo> sections;
   if (!m_entries.empty()) {
     sections.push_back({.name = QString(), .count = static_cast<int>(m_entries.size())});
   }
+  if (!resetSelection) setSelectFirstOnReset(false);
   setSections(sections);
+  if (!resetSelection) setSelectFirstOnReset(true);
 }
 
 QHash<int, QByteArray> ClipboardHistoryModel::roleNames() const {

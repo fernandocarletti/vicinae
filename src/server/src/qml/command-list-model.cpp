@@ -162,7 +162,10 @@ void CommandListModel::setSections(const std::vector<SectionInfo> &sections) {
   int const overlap = std::min(oldCount, newCount);
   if (overlap > 0) emit dataChanged(index(0), index(overlap - 1));
 
-  if (m_selectedIndex >= newCount) m_selectedIndex = -1;
+  if (m_selectedIndex >= newCount)
+    m_selectedIndex = -1;
+  else if (m_selectedIndex >= 0)
+    setSelectedIndex(m_selectedIndex);
 }
 
 bool CommandListModel::dataItemAt(int row, int &section, int &item) const {
